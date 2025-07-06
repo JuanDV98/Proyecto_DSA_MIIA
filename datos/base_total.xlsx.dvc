@@ -1,0 +1,5 @@
+outs:
+- md5: 8804678a72933408e1cc5e2c7675869b
+  size: 144914335
+  hash: md5
+  path: base_total.xlsx

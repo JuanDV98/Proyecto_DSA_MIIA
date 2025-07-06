@@ -1,0 +1,5 @@
+outs:
+- md5: 4db8c1a186024ff2d4bcea662c099bcf
+  size: 1739384
+  hash: md5
+  path: filtered_base.parquet
