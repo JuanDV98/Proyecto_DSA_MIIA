@@ -6,7 +6,7 @@ from pydantic import BaseModel
 import pickle
 import pandas as pd
 from model import __version__ as model_version
-from model.preprocessing import preprocess
+from model import preprocess
 
 # -------------------------------------------------------------------
 # 1. Inicialización de la app
