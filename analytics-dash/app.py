@@ -24,6 +24,13 @@ import pandas as pd
 with open('xgboost_model.pkl', 'rb') as file:
     model = pickle.load(file)
 
+# ── PARCHE PARA SOPORTAR DIFERENCIAS DE VERSIÓN ──
+# En versiones modernas de XGBClassifier este atributo ya no existe,
+# así que lo añadimos para que get_params() no explote:
+setattr(model, "use_label_encoder", False)
+# O también: model.use_label_encoder = False
+# ────────────────────────────────────────────────
+
 app = dash.Dash(__name__)
 server = app.server
 
