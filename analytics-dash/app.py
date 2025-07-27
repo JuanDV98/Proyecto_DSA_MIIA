@@ -25,7 +25,7 @@ with open('xgboost_model.pkl', 'rb') as file:
     model = pickle.load(file)
 
 app = dash.Dash(__name__)
-
+server = app.server
 
 generos = [{'label': 'Masculino', 'value': 'M'}, {'label': 'Femenino', 'value': 'F'}]
 planes_agrupados = [ 'AP',     'Vida Entera',            'PALP',        'Temporal',
