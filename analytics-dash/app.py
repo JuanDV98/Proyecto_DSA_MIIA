@@ -74,10 +74,10 @@ app.layout = html.Div([
             dcc.Input(id='NBS_Vigente', type='number', value=0),
 
             html.Label("Plan Agrupado:"),
-            dcc.Dropdown(id='Plan_Agrupado', options=planes_agrupados, value='Plan_A'),
+            dcc.Dropdown(id='Plan_Agrupado', options=[{'label': p, 'value': p} for p in planes_agrupados], value=planes_agrupados[0]),
 
             html.Label("Medio Pago:"),
-            dcc.Dropdown(id='MedioPago', options=medios_pago, value='Pago_A'),
+            dcc.Dropdown(id='MedioPago', options=[{'label': m, 'value': m} for m in medios_pago], value=medios_pago[0]),
         ], style={'width': '23%', 'padding': '10px'}),
 
         html.Div([
@@ -96,7 +96,8 @@ app.layout = html.Div([
     [Input('Estado_Inicial', 'value'), Input('Huerfano', 'value'), Input('dias_mora', 'value'),
      Input('Ant_pol', 'value'), Input('NBS', 'value'), Input('Edad', 'value'), Input('total_mora', 'value'),
      Input('NBS_mora', 'value'), Input('Total_Activas', 'value'), Input('NBS_Vigente', 'value'),
-     Input('Plan_Agrupado', 'value'), Input('MedioPago', 'value'), Input('genero', 'value')]
+     Input('Plan_Agrupado', 'value'), Input('MedioPago', 'value'), Input('genero', 'value')],
+     prevent_initial_call=False
 )
 def predecir_cancelacion(Estado_Inicial, Huerfano, dias_mora, Ant_pol, NBS, Edad, total_mora, NBS_mora, Total_Activas, NBS_Vigente, Plan_Agrupado, MedioPago, genero):
     entrada = pd.DataFrame({
