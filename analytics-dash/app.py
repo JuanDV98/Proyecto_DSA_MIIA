@@ -41,7 +41,7 @@ import pandas as pd
 #    Si no existe, por defecto localhost:8001/predict
 # ——————————————————————————————————————————————————————————
 API_URL = os.getenv("API_URL", "127.0.0.1:8001")
-PREDICT_ENDPOINT = f"http://{API_URL}/api/v1/predict"
+PREDICT_ENDPOINT = f"http://{API_URL}/predict"
 
 
 # ——————————————————————————————————————————————————————————
@@ -188,7 +188,7 @@ def predecir_cancelacion(n_clicks, Estado_Inicial, Huerfano, dias_mora, Ant_pol,
         return html.Div("Presiona el botón para predecir la cancelación")
 
     payload = {
-        "inputs": [
+        "records": [
             {
                 "Estado_Inicial": Estado_Inicial,
                 "Huerfano": Huerfano,
@@ -208,7 +208,7 @@ def predecir_cancelacion(n_clicks, Estado_Inicial, Huerfano, dias_mora, Ant_pol,
     }
 
     try:
-        resp = requests.post(PREDICT_ENDPOINT, json=payload, timeout=5)
+        resp = requests.post(PREDICT_ENDPOINT, json=payload)
         resp.raise_for_status()
         data = resp.json()
         pred = data["predictions"][0]
