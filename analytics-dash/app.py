@@ -17,7 +17,7 @@
 
 
 import dash
-from dash import dcc, html, Input, Output
+from dash import dcc, html, Input, Output, State
 import pickle
 import pandas as pd
 
@@ -94,19 +94,58 @@ app.layout = html.Div([
         
     ], style={'display': 'flex', 'justify-content': 'space-between'}),
 
+    #html.Div(id='resultado-prediccion', style={'font-size': '20px', 'margin-top': '20px'})
+
+    # Botón para predecir
+    html.Button('Predecir Cancelación', id='boton-prediccion', n_clicks=0),
     html.Div(id='resultado-prediccion', style={'font-size': '20px', 'margin-top': '20px'})
+
+
 ])
 
 
 @app.callback(
     Output('resultado-prediccion', 'children'),
-    [Input('Estado_Inicial', 'value'), Input('Huerfano', 'value'), Input('dias_mora', 'value'),
-     Input('Ant_pol', 'value'), Input('NBS', 'value'), Input('Edad', 'value'), Input('total_mora', 'value'),
-     Input('NBS_mora', 'value'), Input('Total_Activas', 'value'), Input('NBS_Vigente', 'value'),
-     Input('Plan_Agrupado', 'value'), Input('MedioPago', 'value'), Input('genero', 'value')],
-     prevent_initial_call=False
+    Input('boton-prediccion', 'n_clicks'),
+    State('Estado_Inicial', 'value'),
+    State('Huerfano', 'value'), State('dias_mora', 'value'),
+    State('Ant_pol', 'value'), State('NBS', 'value'), State('Edad', 'value'), State('total_mora', 'value'),
+    State('NBS_mora', 'value'), State('Total_Activas', 'value'), State('NBS_Vigente', 'value'),
+    State('Plan_Agrupado', 'value'), State('MedioPago', 'value'), State('genero', 'value'),
+    prevent_initial_call=True
 )
-def predecir_cancelacion(Estado_Inicial, Huerfano, dias_mora, Ant_pol, NBS, Edad, total_mora, NBS_mora, Total_Activas, NBS_Vigente, Plan_Agrupado, MedioPago, genero):
+
+#"""  
+#    [Input('Estado_Inicial', 'value'), Input('Huerfano', 'value'), Input('dias_mora', 'value'),
+#    Input('Ant_pol', 'value'), Input('NBS', 'value'), Input('Edad', 'value'), Input('total_mora', 'value'),
+#    Input('NBS_mora', 'value'), Input('Total_Activas', 'value'), Input('NBS_Vigente', 'value'),
+#    Input('Plan_Agrupado', 'value'), Input('MedioPago', 'value'), Input('genero', 'value')],
+#    prevent_initial_call=False)
+#"""
+
+#""" 
+#    def predecir_cancelacion(Estado_Inicial, Huerfano, dias_mora, Ant_pol, NBS, Edad, total_mora, NBS_mora, Total_Activas, NBS_Vigente, Plan_Agrupado, MedioPago, genero):
+#    entrada = pd.DataFrame({
+#        'Estado_Inicial': [Estado_Inicial],
+#        'Huerfano': [Huerfano],
+#        'dias_mora': [dias_mora],
+#        'Ant_pol': [Ant_pol],
+#        'NBS': [NBS],
+#        'Edad': [Edad],
+#        'total_mora': [total_mora],
+#        'NBS_mora': [NBS_mora],
+#        'Total_Activas': [Total_Activas],
+#        'NBS_Vigente': [NBS_Vigente],
+#        'Plan_Agrupado': [Plan_Agrupado],
+#        'MedioPago': [MedioPago],
+#        'genero': [genero]
+#    })
+#"""
+
+def predecir_cancelacion(n_clicks, Estado_Inicial, Huerfano, dias_mora, Ant_pol, NBS, Edad, total_mora, NBS_mora, Total_Activas, NBS_Vigente, Plan_Agrupado, MedioPago, genero):
+    if not n_clicks:
+        return html.Div("Presiona el botón para predecir la cancelación")
+
     entrada = pd.DataFrame({
         'Estado_Inicial': [Estado_Inicial],
         'Huerfano': [Huerfano],
@@ -122,7 +161,6 @@ def predecir_cancelacion(Estado_Inicial, Huerfano, dias_mora, Ant_pol, NBS, Edad
         'MedioPago': [MedioPago],
         'genero': [genero]
     })
-
     prediccion = model.predict(entrada)[0]
 
     if prediccion == 1:
