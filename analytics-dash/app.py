@@ -41,7 +41,7 @@ import pandas as pd
 #    Si no existe, por defecto localhost:8001/predict
 # ——————————————————————————————————————————————————————————
 API_URL = os.getenv("API_URL", "127.0.0.1:8001")
-PREDICT_ENDPOINT = f"http://{API_URL}/api/v1/predict"
+PREDICT_ENDPOINT = f"http://{API_URL}/predict"
 
 
 # ——————————————————————————————————————————————————————————
